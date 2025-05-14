@@ -1,0 +1,2 @@
+# Ignore PostgreSQL volume
+/postgres/
