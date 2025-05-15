@@ -1,6 +1,6 @@
 -- Table for raw data
 CREATE TABLE IF NOT EXISTS raw_bitcoin_data (
-    timestamp BIGINT,
+    timestamp NUMERIC,
     open NUMERIC,
     high NUMERIC,
     low NUMERIC,
