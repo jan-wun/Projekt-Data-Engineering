@@ -8,7 +8,7 @@ USER=$4
 PASSWORD=$5
 TABLE=$6
 
-echo "[WAIT] Waiting for table '$TABLE' in database '$DB' to contain data (for Spark)..."
+echo "[WAIT] Waiting for table '$TABLE' in database '$DB' to contain data (for Streamlit)..."
 
 # Set the PostgreSQL password for psql
 export PGPASSWORD=$PASSWORD
@@ -19,4 +19,4 @@ until psql -h "$HOST" -p "$PORT" -U "$USER" -d "$DB" -tAc "SELECT 1 FROM $TABLE 
   sleep 5
 done
 
-echo "[WAIT] Table '$TABLE' contains data. Spark can start."
+echo "[WAIT] Table '$TABLE' contains data. Streamlit can start."
