@@ -1,2 +1,3 @@
 # Ignore PostgreSQL volume
 /postgres/
+/spark/postgresql-42.7.3.jar

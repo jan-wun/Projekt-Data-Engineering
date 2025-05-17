@@ -3,6 +3,8 @@ services:
   postgres:
     image: postgres:14
     container_name: postgres
+    ports:
+      - "5432:5432"
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -11,8 +13,6 @@ services:
     volumes:
       - ./postgres:/var/lib/postgresql/data
       - ./sql:/docker-entrypoint-initdb.d
-    ports:
-      - "5432:5432"
     networks:
       - data_net
 
@@ -28,10 +28,34 @@ services:
     volumes:
       - ./data:/data
       - ./drivers/postgresql-42.7.3.jar:/opt/nifi/nifi-current/lib/postgresql-42.7.3.jar
-
+    depends_on:
+      - postgres
     networks:
       - data_net
 
+  spark:
+    build: ./spark
+    container_name: spark
+    ports:
+      - "4040:4040"
+    environment:
+      - SPARK_MODE=client
+      - SPARK_DRIVER_MEMORY=4g
+      - SPARK_EXECUTOR_MEMORY=4g
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - ./spark:/opt/spark-app
+      - ./drivers/postgresql-42.7.3.jar:/opt/spark-app/postgresql-42.7.3.jar
+    depends_on:
+      - nifi
+    networks:
+      - data_net
+    command: >
+      bash -c "
+        /opt/wait-for-table.sh postgres 5432 ${POSTGRES_DB} ${POSTGRES_USER} ${POSTGRES_PASSWORD} raw_bitcoin_data &&
+        spark-submit --jars /opt/spark-app/postgresql-42.7.3.jar /opt/spark-app/transform_bitcoin_data.py"
 networks:
   data_net:
     driver: bridge
