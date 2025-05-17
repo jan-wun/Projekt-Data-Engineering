@@ -20,9 +20,12 @@ CREATE TABLE IF NOT EXISTS staged_bitcoin_data (
 
 -- Table for aggregated data
 CREATE TABLE IF NOT EXISTS aggregated_bitcoin_data (
-    quarter TEXT,
-    avg_price NUMERIC,
-    min_price NUMERIC,
-    max_price NUMERIC,
-    total_volume NUMERIC
+    year INT,
+    quarter INT,
+    avg_open NUMERIC,
+    avg_close NUMERIC,
+    min_low NUMERIC,
+    max_high NUMERIC,
+    total_volume NUMERIC,
+    count_days INT
 );
