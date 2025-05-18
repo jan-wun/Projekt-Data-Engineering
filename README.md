@@ -48,6 +48,8 @@ cd Projekt-Data-Engineering
 docker-compose up --build
 ```
 
+Die Ausführung der Pipeline kann je nach Hardware einige Minuten in Anspruch nehmen.
+
 Die Anwendung bzw. das Streamlit Dashboard ist dann unter [http://localhost:8501](http://localhost:8501) erreichbar.
 
 ---
